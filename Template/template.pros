@@ -1,0 +1,1 @@
+{"py/object": "prosconductor.providers.TemplateConfig", "py/state": {"depot": "pros-mainline", "name": "kernel", "template_ignore": ["template.pros"], "upgrade_paths": ["firmware/libpros.a", "common.mk", "include/API.h"], "version": "2.11.0"}}
