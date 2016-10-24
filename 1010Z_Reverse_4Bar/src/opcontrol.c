@@ -127,13 +127,20 @@ void strafe() {
 
 void push() {
 	if (joystickGetDigital(1, 5, JOY_UP)) {
-		motorSet(7, 127);
-		motorSet(9, 127);
+		motorSet(8, 127);
 	} else if (joystickGetDigital(1, 5, JOY_DOWN)) {
-		motorSet(7, -127);
+		motorSet(8, -127);
+	} else {
+		motorSet(8, 0);
+	}
+}
+
+void wrist() {
+	if (joystickGetDigital(1, 6, JOY_UP)) {
+		motorSet(9, 127);
+	} else if (joystickGetDigital(1, 6, JOY_DOWN)) {
 		motorSet(9, -127);
 	} else {
-		motorSet(7, 0);
 		motorSet(9, 0);
 	}
 }
@@ -144,23 +151,23 @@ void operatorControl() {
 	lcdClear(uart1);
 	_motorWipe();
 
-	// analogCalibrate(3);
+	// analogalibrate(3);
 	// analogCalibrate(2);
 
     taskCreate(liftPID, TASK_DEFAULT_STACK_SIZE, NULL, TASK_PRIORITY_DEFAULT);
 
 	while (true) {
 		//lift();
-		//_driveTank(6, 7, 8, 9);
+		//_driveTank(10, 6, 1, 7);
 
 		int joyRight = joystickGetAnalog(1, 2);
 		int joyLeft = joystickGetAnalog(1, 3);
 
 		// Right and left drives
+		motorSet(10, joyRight);
 		motorSet(6, -joyRight);
-		motorSet(7, -joyRight);
-		motorSet(8, joyLeft);
-		motorSet(9, joyLeft);
+		motorSet(1, - joyLeft);
+		motorSet(7, joyLeft);
 
 		strafe();
 
