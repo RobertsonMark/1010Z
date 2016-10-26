@@ -1,0 +1,5 @@
+		Ten Ton Robotics
+		----------------
+	Central code-base for team 1010Z. Orginization and file structure: All directories are projects, and if the PROS CLI is not working properley and not generating proper source files, use the template/ folder as a framework.
+
+	The file compDefaults.h is a header file containg some default initializer methods and some commonley used tasks to help automate the code writting process.

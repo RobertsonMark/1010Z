@@ -6,87 +6,6 @@
 #define INTEGRAL 0.0
 #define DERIVATIVE 0.0
 
-/*void liftPID(void *ignore) {
-	// Target tick count for potentiometer (how high we want it)
-
-	// Total accumuated error
-	float errTotal;
-	float errLast;
-
-	float target = 680;
-
-	// Current proportion terms for each side of lift
-	float prop;
-	float integ;
-	float deriv;
-
-	// Threshold that manages when to activate the INTEGRAL portion
-	int integAccumulate = 100;
-	float integCap = 50 / INTEGRAL;
-
-	// Motor out puts for each side of lift towers
-	float output;
-
-	encoderReset(encLift);
-
-	while (1) {
-		// Initialize the raw potentiometer input
-		int currTick = encoderGet(encLift);
-
-		int err = target - currTick;
-
-		// Manage the INTEGRAL term (only use if close/approaching target)
-		if (err < integAccumulate) { errTotal += err; }
-		else { errTotal = 0; }
-
-		// INTEGRAL cap (by standard 50 / INTEGRAL term
-		if (errTotal > integCap) { errTotal = 50 / INTEGRAL; }
-		// Compute P, I, and D terms for both right and left side of lift
-		prop = err * PROPORTION;
-		integ = errTotal * INTEGRAL;
-		deriv = (errTotal - errLast) * DERIVATIVE;
-
-		errLast = err;
-
-		// Set motor output as sum of P, I, and D terms
-		output = prop;
-
-		if (output > 127) { output = 127; }
-		//printf("Prop LEFT: %d   ", output);
-
-		if (joystickGetDigital(1, 6, JOY_UP)) {
-			motorSet(6, output);
-			motorSet(7, output);
-			// Left
-			motorSet(5, -output);
-			motorSet(8, -output);
-		} else if (joystickGetDigital(1, 6, JOY_DOWN)) {
-			motorSet(6, -70);
-			motorSet(7, -70);
-			// Left
-			motorSet(5, 70);
-			motorSet(8, 70);
-		} else {
-			motorSet(6, 0);
-			motorSet(7, 0);
-			// Left
-			motorSet(5, 0);
-			motorSet(8, 0);
-		}
-
-		if (currTick > 650) {
-			motorSet(3, -120);
-			motorSet(9, 120);
-		} else {
-			motorSet(3, 0);
-			motorSet(9, 0);
-		}
-
-		// Refresh @25
-		delay(25);
-	}
-} */
-
 void clawPID(void *ignore) {
 	// Target tick count for potentiometer (how high we want it)
 
@@ -94,7 +13,7 @@ void clawPID(void *ignore) {
 	float errTotal;
 	float errLast;
 
-	float target;// = 2700;
+	//float target;// = 2700;
 
 	// Current proportion terms for each side of lift
 	float prop;
@@ -114,39 +33,31 @@ void clawPID(void *ignore) {
 	while (1) {
 		// Initialize the raw potentiometer input
 		int currTick = analogRead(1);
-		target = analogRead(3);
-
+		float target = -(analogRead(3));
 
 		int err = target - currTick;
 
 		// Manage the INTEGRAL term (only use if close/approaching target)
-		/*if (errLeft < integAccumulate) { errTotalLeft += errLeft; }
-		else { errTotalLeft = 0; }
-		if (errRight < integAccumulate) { errTotalRight += errRight; }
-		else { errTotalLeft = 0; } */
+		if (err < integAccumulate) { errTotal += err; }
+		else { errTotal= 0; }
 
 		// INTEGRAL cap (by standard 50 / INTEGRAL term
-		//if (errTotalLeft > integCap) { errTotalLeft = 50 / INTEGRAL; }
-		// if (errTotalRight > integCap) { errTotalRight = 50 / INTEGRAL; }
+		if (errTotal > integCap) { errTotal = 50 / INTEGRAL; }
+
 		// Compute P, I, and D terms for both right and left side of lift
 		prop = err * PROPORTION;
-
 		integ = errTotal * INTEGRAL;
-
 		deriv = (errTotal - errLast) * DERIVATIVE;
-
 		errLast = err;
 
 		// Set motor output as sum of P, I, and D terms
-		output = prop;
+		output = prop;//+ integ + deriv;
 
 		if (output > 127) { output = 127; }
 
-		//printf("Prop LEFT: %d   ", output);
-
 		if (joystickGetDigital(1, 5, JOY_UP)) {
-			motorSet(3, output);
-			motorSet(9, -output);
+			motorSet(3, -output);
+			motorSet(9, output);
 		} else if (joystickGetDigital(1, 5, JOY_DOWN)) {
 			motorSet(3, -120);
 			motorSet(9, 120);
