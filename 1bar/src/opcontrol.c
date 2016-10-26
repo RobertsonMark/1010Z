@@ -94,7 +94,7 @@ void clawPID(void *ignore) {
 	float errTotal;
 	float errLast;
 
-	//float target;// = 2700;
+	float target;// = 2700;
 
 	// Current proportion terms for each side of lift
 	float prop;
@@ -114,7 +114,8 @@ void clawPID(void *ignore) {
 	while (1) {
 		// Initialize the raw potentiometer input
 		int currTick = analogRead(1);
-		float target = -(analogRead(3));
+		target = analogRead(3);
+
 
 		int err = target - currTick;
 
@@ -144,8 +145,8 @@ void clawPID(void *ignore) {
 		//printf("Prop LEFT: %d   ", output);
 
 		if (joystickGetDigital(1, 5, JOY_UP)) {
-			motorSet(3, -output);
-			motorSet(9, output);
+			motorSet(3, output);
+			motorSet(9, -output);
 		} else if (joystickGetDigital(1, 5, JOY_DOWN)) {
 			motorSet(3, -120);
 			motorSet(9, 120);
