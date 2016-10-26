@@ -1,21 +1,14 @@
 #include "main.h"
 #include <stdlib.h>
-#include "compDefaults.h"
 
 #define THRESHOLD 20
 
 void operatorControl() {
 	while (1) {
 
-		#include "main.h"
-
-		void operatorControl() {
-
 			int ch1;
 			int ch3;
 			int ch4;
-
-			while (1) {
 
 				// Master Joystick Channels...
 				int joy1 = joystickGetAnalog(1, 1);
@@ -55,9 +48,4 @@ void operatorControl() {
 
 				delay(20);
 			}
-		}
-
-
-		delay(20);
-	}
 }
